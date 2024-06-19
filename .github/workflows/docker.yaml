@@ -1,0 +1,39 @@
+name: 'Release-Docker-Image'
+
+on:
+  workflow_dispatch:
+  pull_request:
+  release:
+    types: ['created']
+
+jobs:
+  Release-Docker-Image:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: 'Login to Docker Hub'
+        uses: 'docker/login-action@v3'
+        if: ${{ github.event_name == 'release' }}
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: 'Extract metadata (tags, labels) for Docker'
+        id: 'meta'
+        uses: 'docker/metadata-action@v5'
+        with:
+          images: 'monikadesignuniverse/pt-trackerproxy'
+      - name: ${{ github.event_name == 'release' && 'Build and Push Docker image' || 'Build Docker image' }}
+        uses: 'docker/build-push-action@v5'
+        with:
+          context: '.'
+          file: './Dockerfile'
+          push: ${{ github.event_name == 'release' && true || false }}
+          platforms: 'linux/386,linux/amd64,linux/arm/v7,linux/arm64,linux/ppc64le'
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            "GITHUB_REF=${{ github.ref }}"
+            "PROGRAM_NIGHTLY=${{ github.event_name != 'release' && 'true' || 'false' }}"
