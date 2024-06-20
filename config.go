@@ -33,6 +33,7 @@ var httpTransport = &http.Transport {
 	MaxConnsPerHost:       200,
 	MaxIdleConnsPerHost:   200,
 	IdleConnTimeout:       60 * time.Second,
+	TLSHandshakeTimeout:   12 * time.Second,
 	ResponseHeaderTimeout: 60 * time.Second,
 	Proxy:                 http.ProxyFromEnvironment,
 }
@@ -43,10 +44,11 @@ var httpTransportWithoutProxy = &http.Transport {
 	MaxConnsPerHost:       200,
 	MaxIdleConnsPerHost:   200,
 	IdleConnTimeout:       60 * time.Second,
+	TLSHandshakeTimeout:   12 * time.Second,
 	ResponseHeaderTimeout: 60 * time.Second,
 	Proxy:                 nil,
 }
-var httpClient = http.Client {
+var httpClient = &http.Client {
 	Timeout:   6 * time.Second,
 	Transport: httpTransportWithoutProxy,
 }

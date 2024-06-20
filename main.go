@@ -59,7 +59,7 @@ func Log(module string, str string, args ...interface {}) {
 	}
 	if module == "LogWriter" {
 		str = StrTrim(str)
-		if str == "http: proxy error: EOF" {
+		if str == "http: proxy error: EOF" || str == "http: proxy error: context canceled" {
 			return
 		}
 	}
@@ -133,13 +133,16 @@ func ProcessRequest(w http.ResponseWriter, r *http.Request) {
 	reserveProxy.ServeHTTP(w, r)
 }
 func CatchSignal() {
-	exitSignal := make(chan os.Signal, 2)
-	signal.Notify(exitSignal, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-	<-exitSignal
-	isServerRunning = false
-	intervalTicker.Stop()
-	reserveServer.Close()
-	os.Exit(0)
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM)
+
+	<-signalChan
+		isServerRunning = false
+		Log("CatchSignal", "程序正在停止..")
+		intervalTicker.Stop()
+		httpClient.CloseIdleConnections()
+		reserveServer.Close()
+		os.Exit(0)
 }
 func main() {
 	LoadConfig()
