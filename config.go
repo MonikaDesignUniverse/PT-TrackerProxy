@@ -4,6 +4,7 @@ import (
 	"os"
 	"time"
 	"encoding/json"
+	"net/url"
 	"net/http"
 )
 
@@ -13,11 +14,11 @@ var programName = "PT-TrackerProxy"
 var programVersion = "Unknown"
 var programUserAgent = programName + "/" + programVersion
 
-var domain_whitelist = map[string]bool {
-	"monikadesign.uk": true,
-	"tracker.monikadesign.uk": true,
-	"daisuki.monikadesign.uk": true,
-	"daikirai.monikadesign.uk": true,
+var domain_whitelist = map[string]*url.URL {
+	"monikadesign.uk": ParseURL("https://monikadesign.uk"),
+	"tracker.monikadesign.uk": ParseURL("https://tracker.monikadesign.uk"),
+	"daisuki.monikadesign.uk": ParseURL("https://daisuki.monikadesign.uk"),
+	"daikirai.monikadesign.uk": ParseURL("https://daikirai.monikadesign.uk"),
 }
 
 var configFilename = "config.json"

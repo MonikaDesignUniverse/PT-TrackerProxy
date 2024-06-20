@@ -107,20 +107,18 @@ func ProcessRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	targetHost := targetHostSplit[1]
-	if _, exist := domain_whitelist[targetHost]; !exist {
+	parsedReserveURL, exist := domain_whitelist[targetHost]
+	if !exist {
 		WriteResponse(w, "坏域名.")
+		return
+	}
+	if parsedReserveURL == nil {
+		WriteResponse(w, "坏域名值.")
 		return
 	}
 
 	if targetHostSplitLen < 3 || !strings.HasPrefix(targetHostSplit[2], "announce") {
 		WriteResponse(w, "坏路径.")
-		return
-	}
-
-	reserveURL := ("https://" + targetHost)
-	parsedReserveURL, err := url.Parse(reserveURL)
-	if err != nil {
-		WriteResponse(w, "解析目标 URL 时发生错误: " + err.Error())
 		return
 	}
 

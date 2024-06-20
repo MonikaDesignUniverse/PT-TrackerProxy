@@ -5,6 +5,6 @@
 
 它依赖以下环境变量: ```HTTP_PROXY``` 和 ```HTTPS_PROXY```.
 
-支持的 PT Tracker (只支持 HTTPS) 可通过 HTTP Header 来接收版本号 (```X-PTTP-Version```)/IPv4 地址 (```X-PTTP-IP4```)/IPv6 地址(```X-PTTP-IP6```).
+支持的 PT Tracker 可通过 HTTP Header 来接收版本号 (```X-PTTP-Version```)/IPv4 地址 (```X-PTTP-IP4```)/IPv6 地址(```X-PTTP-IP6```).
 
 使用方法: 始终启动此工具, 设置代理所需环境变量 (HTTP_PROXY 和 HTTPS_PROXY), 关闭客户端设置中的“服务器端请求伪造 (SSRF)”保护, 最后将原有站点 Tracker 中的 https:// 批量替换为 http://127.0.0.1:7887/;

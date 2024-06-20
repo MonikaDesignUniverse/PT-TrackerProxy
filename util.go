@@ -4,6 +4,7 @@ import (
 	"time"
 	"strings"
 	"net"
+	"net/url"
 )
 
 func StrTrim(str string) string {
@@ -15,6 +16,15 @@ func GetDateTime(withTime bool) string {
 		formatStr += " 15:04:05"
 	}
 	return time.Now().Format(formatStr)
+}
+func ParseURL(targetURL string) *url.URL {
+	parsedURL, err := url.Parse(targetURL)
+	if err != nil {
+		Log("ParseURL", "解析目标 URL 时发生错误: %s", err.Error())
+		return nil
+	}
+
+	return parsedURL
 }
 func CheckIP(ip string) uint32 {
 	ipParsed := net.ParseIP(ip)
