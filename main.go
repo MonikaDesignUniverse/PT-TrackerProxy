@@ -36,6 +36,8 @@ var reserveProxy = &httputil.ReverseProxy {
 		r.SetURL(parsedReserveURL)
 
 		r.Out.Header.Set("X-PTTP-Version", programVersion)
+		r.Out.Header.Set("X-PTTP-ListenAddr", config.ListenAddr)
+		r.Out.Header.Set("X-PTTP-ListenPort", strconv.Itoa(listenPort))
 		if currentIPv4 != "" {
 			r.Out.Header.Set("X-PTTP-IP4", currentIPv4)
 		}
