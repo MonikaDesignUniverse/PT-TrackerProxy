@@ -22,7 +22,7 @@ func RefreshCurrentIPv4() bool {
 
 	ipv4ResponseBodyStr := StrTrim(string(ipv4ResponseBody))
 	if ipv4ResponseBodyStr == "ERR_NOROUTE" {
-		if debug {
+		if config.Debug {
 			Log("RefreshCurrentIPv4", "获取 IPv4 地址失败.")
 		}
 		return true
@@ -48,7 +48,7 @@ func RefreshCurrentIPv6() bool {
 
 	ipv6ResponseBodyStr := StrTrim(string(ipv6ResponseBody))
 	if ipv6ResponseBodyStr == "ERR_NOROUTE" {
-		if debug {
+		if config.Debug {
 			Log("RefreshCurrentIPv6", "获取 IPv6 地址失败.")
 		}
 		return true

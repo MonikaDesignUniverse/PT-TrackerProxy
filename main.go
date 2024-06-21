@@ -54,7 +54,7 @@ func (w LogWriter) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 func Log(module string, str string, args ...interface {}) {
-	if !debug && strings.HasPrefix(module, "Debug") {
+	if !config.Debug && strings.HasPrefix(module, "Debug") {
 		return
 	}
 	if module == "LogWriter" {
@@ -99,6 +99,7 @@ func ProcessRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	Log("Test", r.URL.Path)
 	targetHostSplit := strings.SplitN(r.URL.Path, "/", 3)
 	targetHostSplitLen := len(targetHostSplit)
 	if targetHostSplitLen < 2 {
@@ -122,9 +123,11 @@ func ProcessRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	Log("ProcessRequest", "代理新请求 (域名: %s, 路径: /%s, 原始请求 URI: %s)", targetHost, targetHostSplit[2], r.RequestURI)
+
 	ctx := context.WithValue(r.Context(), "parsedReserveURL", parsedReserveURL)
 	r = r.WithContext(ctx)
-	r.URL.Path = targetHostSplit[2]
+	r.URL.Path = ("/" + targetHostSplit[2])
 	r.URL.RawPath = ""
 	r.RequestURI = r.URL.RequestURI()
 

@@ -8,8 +8,6 @@ import (
 	"net/http"
 )
 
-var debug = false
-
 var programName = "PT-TrackerProxy"
 var programVersion = "Unknown"
 var programUserAgent = programName + "/" + programVersion
@@ -23,6 +21,7 @@ var domain_whitelist = map[string]*url.URL {
 
 var configFilename = "config.json"
 var config = Config {
+	Debug:      false,
 	ListenAddr: "127.0.0.1",
 }
 var listenPort = 7887
@@ -60,6 +59,7 @@ var reserveServer = &http.Server {
 }
 
 type Config struct {
+	Debug      bool
 	ListenAddr string
 }
 
