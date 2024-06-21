@@ -64,7 +64,6 @@ func RefreshCurrentIPv6() bool {
 func RefreshCurrentIP() {
 	for ; true; <-intervalTicker.C {
 		if !RefreshCurrentIPv4() {
-			currentIPv4 = ""
 			ipv4FailedCount++
 
 			if ipv4FailedCount >= maxFailedCount {
@@ -82,7 +81,6 @@ func RefreshCurrentIP() {
 		}
 
 		if !RefreshCurrentIPv6() {
-			currentIPv6 = ""
 			ipv6FailedCount++
 
 			if ipv6FailedCount >= maxFailedCount {
