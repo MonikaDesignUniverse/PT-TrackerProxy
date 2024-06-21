@@ -122,9 +122,7 @@ func ProcessRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if config.Debug {
-		Log("ProcessRequest", "代理新请求 (域名: %s, 路径: /%s, 原始请求 URI: %s)", targetHost, targetHostSplit[2], r.RequestURI)
-	}
+	Log("Debug-ProcessRequest", "代理新请求 (域名: %s, 路径: /%s, 原始请求 URI: %s)", targetHost, targetHostSplit[2], r.RequestURI)
 
 	ctx := context.WithValue(r.Context(), "parsedReserveURL", parsedReserveURL)
 	r = r.WithContext(ctx)
