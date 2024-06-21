@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net/url"
 	"net/http"
+	"github.com/tidwall/jsonc"
 )
 
 var programName = "PT-TrackerProxy"
@@ -70,17 +71,17 @@ func LoadConfig() bool {
 	_, err := os.Stat(configFilename)
 	if err != nil {
 		if !os.IsNotExist(err) {
-			Log("Debug-LoadConfig", "读取配置文件元数据时发生了错误: %s", err.Error())
+			Log("LoadConfig", "读取配置文件元数据时发生了错误: %s", err.Error())
 		}
 		return false
 	}
 	configFile, err := os.ReadFile(configFilename)
 	if err != nil {
-		Log("Debug-LoadConfig", "读取配置文件时发生了错误: %s", err.Error())
+		Log("LoadConfig", "读取配置文件时发生了错误: %s", err.Error())
 		return false
 	}
-	if err := json.Unmarshal(configFile, &config); err != nil {
-		Log("Debug-LoadConfig", "解析配置文件时发生了错误: %s", err.Error())
+	if err := json.Unmarshal(jsonc.ToJSON(configFile), &config); err != nil {
+		Log("LoadConfig", "解析配置文件时发生了错误: %s", err.Error())
 		return false
 	}
 	Log("LoadConfig", "读取配置文件成功")

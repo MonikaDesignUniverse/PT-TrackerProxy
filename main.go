@@ -147,8 +147,8 @@ func CatchSignal() {
 		os.Exit(0)
 }
 func main() {
-	LoadConfig()
 	ShowVersion()
+	LoadConfig()
 	log.SetFlags(0)
 	log.SetOutput(logwriter)
 	go CatchSignal()
