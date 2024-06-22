@@ -68,29 +68,6 @@ func Log(module string, str string, args ...interface {}) {
 	logStr := fmt.Sprintf("[" + GetDateTime(true) + "][" + module + "] " + str + ".\n", args...)
 	fmt.Print(logStr)
 }
-func StartProxy() {
-	http.HandleFunc("/", ProcessRequest)
-
-	domainArr := make([]string, 0, len(domain_whitelist))
-	for k := range domain_whitelist {
-		domainArr = append(domainArr, k)
-	}
-
-	listenStr := (config.ListenAddr + ":" + strconv.Itoa(listenPort))
-	Log("StartProxy", "监听于: %s, 支持以下 Tracker: %s", listenStr, strings.Join(domainArr, " | "))
-	reserveServer.Addr = listenStr
-	listen, err := net.Listen("tcp4", listenStr)
-	if err != nil {
-		Log("StartProxy", "监听端口时发生错误: %s", err.Error())
-		return
-	}
-
-	for isServerRunning {
-		if err := reserveServer.Serve(listen); err != http.ErrServerClosed {
-			Log("StartProxy", "处理请求时发生错误: %s", err.Error())
-		}
-	}
-}
 func WriteResponse(w http.ResponseWriter, s string) {
 	w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
 	w.Write([]byte(s + "\n"))
@@ -139,25 +116,70 @@ func BackgroundTask() {
 		RefreshCurrentIP()
 	}
 }
+func Stop() {
+	isServerRunning = false
+	Log("CatchSignal", "程序正在停止..")
+	intervalTicker.Stop()
+	httpClient.CloseIdleConnections()
+	reserveServer.Close()
+	os.Exit(0)
+}
 func CatchSignal() {
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM)
 
 	<-signalChan
-		isServerRunning = false
-		Log("CatchSignal", "程序正在停止..")
-		intervalTicker.Stop()
-		httpClient.CloseIdleConnections()
-		reserveServer.Close()
-		os.Exit(0)
+		Stop()
+}
+func CheckListen() bool {
+	ipPrivate, _ := CheckPrivateIP(config.ListenAddr)
+	if !ipPrivate || IsIPv6(config.ListenAddr) {
+		Log("CheckListen", "监听地址不合法: %s", config.ListenAddr)
+		return false
+	}
+
+	if listenPort <= 1024 || listenPort >= 65535 {
+		Log("CheckListen", "监听端口不合法: %d", listenPort)
+		return false
+	}
+
+	return true
+}
+func StartProxy() {
+	http.HandleFunc("/", ProcessRequest)
+
+	domainArr := make([]string, 0, len(domain_whitelist))
+	for k := range domain_whitelist {
+		domainArr = append(domainArr, k)
+	}
+
+	listenStr := (config.ListenAddr + ":" + strconv.Itoa(listenPort))
+	Log("StartProxy", "监听于: %s, 支持以下 Tracker: %s", listenStr, strings.Join(domainArr, " | "))
+	reserveServer.Addr = listenStr
+	listen, err := net.Listen("tcp4", listenStr)
+	if err != nil {
+		Log("StartProxy", "监听端口时发生错误: %s", err.Error())
+		return
+	}
+
+	for isServerRunning {
+		if err := reserveServer.Serve(listen); err != http.ErrServerClosed {
+			Log("StartProxy", "处理请求时发生错误: %s", err.Error())
+		}
+	}
 }
 func main() {
 	ShowVersion()
 	LoadConfig()
 	log.SetFlags(0)
 	log.SetOutput(logwriter)
-	go BackgroundTask()
-	go CatchSignal()
-	GetProxy(nil)
-	StartProxy()
+
+	if CheckListen() {
+		go BackgroundTask()
+		go CatchSignal()
+		GetProxy(nil)
+		StartProxy()
+	} else {
+		time.Sleep(2 * time.Second)
+	}
 }

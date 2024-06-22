@@ -26,15 +26,30 @@ func ParseURL(targetURL string) *url.URL {
 
 	return parsedURL
 }
-func CheckIP(ip string) uint32 {
-	ipParsed := net.ParseIP(ip)
-	if ipParsed == nil {
+func IsIPv6(ip string) bool {
+	if strings.Count(ip, ":") < 2 {
+		return false
+	}
+
+	return true
+}
+func CheckPublicIP(ip string) uint32 {
+	ipPrivate, ipParsed := CheckPrivateIP(ip)
+	if ipPrivate || ipParsed == nil {
 		return 0
 	}
 
-	if strings.Count(ip, ":") < 2 {
-		return 4
+	if IsIPv6(ip) {
+		return 6
 	}
 
-	return 6
+	return 4
+}
+func CheckPrivateIP(ip string) (bool, net.IP) {
+	ipParsed := net.ParseIP(ip)
+	if ipParsed == nil {
+		return false, nil
+	}
+
+	return (ipParsed.IsLoopback() || ipParsed.IsPrivate()), ipParsed
 }

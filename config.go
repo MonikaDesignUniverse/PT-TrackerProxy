@@ -9,6 +9,11 @@ import (
 	"github.com/tidwall/jsonc"
 )
 
+type Config struct {
+	Debug      bool
+	ListenAddr string
+}
+
 var programName = "PT-TrackerProxy"
 var programVersion = "Unknown"
 var programUserAgent = programName + "/" + programVersion
@@ -57,11 +62,6 @@ var reserveServer = &http.Server {
 	ReadTimeout:  60 * time.Second,
 	WriteTimeout: 60 * time.Second,
 	IdleTimeout:  60 * time.Second,
-}
-
-type Config struct {
-	Debug      bool
-	ListenAddr string
 }
 
 func ShowVersion() {

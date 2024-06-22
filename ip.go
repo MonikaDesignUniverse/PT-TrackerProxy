@@ -25,7 +25,7 @@ func RefreshCurrentIPv4() bool {
 		Log("Debug-RefreshCurrentIPv4", "获取 IPv4 地址失败.")
 		return true
 	}
-	if CheckIP(ipv4ResponseBodyStr) != 4 {
+	if CheckPublicIP(ipv4ResponseBodyStr) != 4 {
 		Log("RefreshCurrentIPv4", "获取 IPv4 地址时发生了错误 (Error 2)")
 		return false
 	}
@@ -49,7 +49,7 @@ func RefreshCurrentIPv6() bool {
 		Log("Debug-RefreshCurrentIPv6", "获取 IPv6 地址失败.")
 		return true
 	}
-	if CheckIP(ipv6ResponseBodyStr) != 6 {
+	if CheckPublicIP(ipv6ResponseBodyStr) != 6 {
 		Log("RefreshCurrentIPv6", "获取 IPv6 地址时发生了错误 (Error 2)")
 		return false
 	}
