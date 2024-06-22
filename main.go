@@ -119,7 +119,7 @@ func ProcessRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if targetHostSplitLen < 3 || (!strings.HasPrefix(targetHostSplit[2], "announce") && !strings.HasPrefix(targetHostSplit[2], "rss") && !strings.HasPrefix(targetHostSplit[2], "torrentrss")) {
+	if targetHostSplitLen < 3 || (!strings.HasPrefix(targetHostSplit[2], "announce") && !strings.HasPrefix(targetHostSplit[2], "rss") && !strings.HasPrefix(targetHostSplit[2], "torrentrss") && !strings.HasPrefix(targetHostSplit[2], "torrent/download") && !strings.HasPrefix(targetHostSplit[2], "download")) {
 		WriteResponse(w, "坏路径.")
 		return
 	}
