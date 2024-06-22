@@ -36,7 +36,7 @@ func GetProxy(r *http.Request) (*url.URL, error) {
 
 			httpsProxyURL = httpsProxy.URL()
 			if httpsProxyURL.Scheme == "" {
-				httpsProxyURL.Scheme = "https"
+				httpsProxyURL.Scheme = "http"
 			}
 
 			Log("GetProxy", "发现 HTTPS 代理: %s (来源: %s)", httpsProxyURL.String(), httpsProxy.Src())
