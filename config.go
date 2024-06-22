@@ -36,7 +36,7 @@ var httpTransport = &http.Transport {
 	IdleConnTimeout:       60 * time.Second,
 	TLSHandshakeTimeout:   12 * time.Second,
 	ResponseHeaderTimeout: 60 * time.Second,
-	Proxy:                 http.ProxyFromEnvironment,
+	Proxy:                 GetProxy,
 }
 var httpTransportWithoutProxy = &http.Transport {
 	DisableKeepAlives:     true,

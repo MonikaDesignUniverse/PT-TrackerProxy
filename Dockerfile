@@ -17,7 +17,7 @@ RUN PROGRAM_VERSION="$(basename ${GITHUB_REF})"; \
 
 RUN . /envfile; echo "Running on ${BUILDOS}/${BUILDARCH}, Building for ${TARGETOS}/${TARGETARCH}, Version: ${PROGRAM_VERSION}"
 
-ADD *LICENSE* *.md *.go *.sh go.mod config.json ./
+ADD *LICENSE* *.md *.go *.sh go.mod go.sum config.json ./
 
 RUN go mod download
 RUN . /envfile; go build -ldflags "-w -X \"main.programVersion=${PROGRAM_VERSION}\"" -o PT-TrackerProxy

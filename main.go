@@ -158,5 +158,6 @@ func main() {
 	log.SetOutput(logwriter)
 	go BackgroundTask()
 	go CatchSignal()
+	GetProxy(nil)
 	StartProxy()
 }
