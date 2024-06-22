@@ -20,8 +20,12 @@ func GetProxy(r *http.Request) (*url.URL, error) {
 				return nil, nil
 			}
 
-			Log("GetProxy", "发现 HTTP 代理: %s", httpProxy.Src(), httpProxy.String())
 			httpProxyURL = httpProxy.URL()
+			if httpProxyURL.Scheme == "" {
+				httpProxyURL.Scheme = "http"
+			}
+
+			Log("GetProxy", "发现 HTTP 代理: %s (来源: %s)", httpProxyURL.String(), httpProxy.Src())
 		}
 
 		if httpsProxyURL == nil {
@@ -30,8 +34,12 @@ func GetProxy(r *http.Request) (*url.URL, error) {
 				return nil, nil
 			}
 
-			Log("GetProxy", "发现 HTTPS 代理: %s", httpsProxy.Src(), httpsProxy.String())
 			httpsProxyURL = httpsProxy.URL()
+			if httpsProxyURL.Scheme == "" {
+				httpsProxyURL.Scheme = "https"
+			}
+
+			Log("GetProxy", "发现 HTTPS 代理: %s (来源: %s)", httpsProxyURL.String(), httpsProxy.Src())
 		}
 	}
 

@@ -56,13 +56,15 @@ func (w LogWriter) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 func Log(module string, str string, args ...interface {}) {
-	if !config.Debug && strings.HasPrefix(module, "Debug") {
-		return
-	}
-	if module == "LogWriter" {
-		str = StrTrim(str)
-		if str == "http: proxy error: EOF" || str == "http: proxy error: context canceled" {
+	if !config.Debug {
+		if strings.HasPrefix(module, "Debug") {
 			return
+		}
+		if module == "LogWriter" {
+			str = StrTrim(str)
+			if strings.HasPrefix(str, "[proxy.Provider") || str == "http: proxy error: EOF" || str == "http: proxy error: context canceled" {
+				return
+			}
 		}
 	}
 	logStr := fmt.Sprintf("[" + GetDateTime(true) + "][" + module + "] " + str + ".\n", args...)
