@@ -134,6 +134,11 @@ func ProcessRequest(w http.ResponseWriter, r *http.Request) {
 
 	reserveProxy.ServeHTTP(w, r)
 }
+func BackgroundTask() {
+	for ; true; <-intervalTicker.C {
+		RefreshCurrentIP()
+	}
+}
 func CatchSignal() {
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM)
@@ -151,7 +156,7 @@ func main() {
 	LoadConfig()
 	log.SetFlags(0)
 	log.SetOutput(logwriter)
+	go BackgroundTask()
 	go CatchSignal()
-	go RefreshCurrentIP()
 	StartProxy()
 }

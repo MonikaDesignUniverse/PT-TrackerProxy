@@ -62,39 +62,37 @@ func RefreshCurrentIPv6() bool {
 	return true
 }
 func RefreshCurrentIP() {
-	for ; true; <-intervalTicker.C {
-		if !RefreshCurrentIPv4() {
-			ipv4FailedCount++
+	if !RefreshCurrentIPv4() {
+		ipv4FailedCount++
 
-			if ipv4FailedCount >= maxFailedCount {
-				ipv4FailedCount = 0
-				
-				if (len(ipv4DetectAPIs) - 1) > ipv4APIPos {
-					ipv4APIPos++
-				} else {
-					ipv4APIPos = 0
-				}
-
-				Log("RefreshCurrentIP", "获取 IPv4 地址错误次数过多, 已更换 %d 号 API", ipv4APIPos)
-				currentIPv4DetectAPI = ipv4DetectAPIs[ipv4APIPos]
+		if ipv4FailedCount >= maxFailedCount {
+			ipv4FailedCount = 0
+			
+			if (len(ipv4DetectAPIs) - 1) > ipv4APIPos {
+				ipv4APIPos++
+			} else {
+				ipv4APIPos = 0
 			}
+
+			Log("RefreshCurrentIP", "获取 IPv4 地址错误次数过多, 已更换 %d 号 API", ipv4APIPos)
+			currentIPv4DetectAPI = ipv4DetectAPIs[ipv4APIPos]
 		}
+	}
 
-		if !RefreshCurrentIPv6() {
-			ipv6FailedCount++
+	if !RefreshCurrentIPv6() {
+		ipv6FailedCount++
 
-			if ipv6FailedCount >= maxFailedCount {
-				ipv6FailedCount = 0
+		if ipv6FailedCount >= maxFailedCount {
+			ipv6FailedCount = 0
 
-				if (len(ipv6DetectAPIs) - 1) > ipv6APIPos {
-					ipv6APIPos++
-				} else {
-					ipv6APIPos = 0
-				}
-
-				Log("RefreshCurrentIP", "获取 IPv6 地址错误次数过多, 已更换 %d 号 API", ipv6APIPos)
-				currentIPv6DetectAPI = ipv6DetectAPIs[ipv6APIPos]
+			if (len(ipv6DetectAPIs) - 1) > ipv6APIPos {
+				ipv6APIPos++
+			} else {
+				ipv6APIPos = 0
 			}
+
+			Log("RefreshCurrentIP", "获取 IPv6 地址错误次数过多, 已更换 %d 号 API", ipv6APIPos)
+			currentIPv6DetectAPI = ipv6DetectAPIs[ipv6APIPos]
 		}
 	}
 }
