@@ -9,7 +9,7 @@
 
 --------------------
 
-支持的 PT Tracker 可通过 HTTP Header 来接收信息.
+支持的 PT Tracker 可通过 HTTP Header 来接收信息, 样例可见 server_PTTPHelper.php.
 
 自 1.0 版本:  
 版本号 (```X-PTTP-Version```)  
