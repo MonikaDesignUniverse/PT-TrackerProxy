@@ -181,7 +181,7 @@ func main() {
 		go CatchSignal()
 		GetProxy(nil)
 		StartProxy()
-	} else {
-		time.Sleep(2 * time.Second)
 	}
+
+	time.Sleep(2 * time.Second)
 }
