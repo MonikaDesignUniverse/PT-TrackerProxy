@@ -15,7 +15,7 @@ func Fetch(url string, avoidErr bool) []byte {
 	req.Header.Set("User-Agent", programUserAgent)
 	response, err := httpClient.Do(req)
 	if err != nil {
-		if strings.Contains(strings.ToLower(err.Error()), "no route") {
+		if strings.Contains(strings.ToLower(err.Error()), "no route") || strings.Contains(strings.ToLower(err.Error()), "the requested name is valid, but no data of the requested type was found") {
 			return []byte("ERR_NOROUTE")
 		}
 
