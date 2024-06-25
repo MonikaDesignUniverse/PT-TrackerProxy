@@ -11,15 +11,11 @@ var httpProxyURL *url.URL
 var httpsProxyURL *url.URL
 
 func GetProxy(r *http.Request) (*url.URL, error) {
-	if httpProxyURL == nil || httpsProxyURL == nil {
+	if r == nil && httpProxyURL == nil && httpsProxyURL == nil {
 		proxyProvider := proxy.NewProvider("")
 
-		if httpProxyURL == nil {
-			httpProxy := proxyProvider.GetHTTPProxy("")
-			if httpProxy == nil {
-				return nil, nil
-			}
-
+		httpProxy := proxyProvider.GetHTTPProxy("")
+		if httpProxy != nil {
 			httpProxyURL = httpProxy.URL()
 			if httpProxyURL.Scheme == "" {
 				httpProxyURL.Scheme = "http"
@@ -28,12 +24,8 @@ func GetProxy(r *http.Request) (*url.URL, error) {
 			Log("GetProxy", "发现 HTTP 代理: %s (来源: %s)", httpProxyURL.String(), httpProxy.Src())
 		}
 
-		if httpsProxyURL == nil {
-			httpsProxy := proxyProvider.GetHTTPSProxy("")
-			if httpsProxy == nil {
-				return nil, nil
-			}
-
+		httpsProxy := proxyProvider.GetHTTPSProxy("")
+		if httpsProxy != nil {
 			httpsProxyURL = httpsProxy.URL()
 			if httpsProxyURL.Scheme == "" {
 				httpsProxyURL.Scheme = "http"
@@ -41,9 +33,11 @@ func GetProxy(r *http.Request) (*url.URL, error) {
 
 			Log("GetProxy", "发现 HTTPS 代理: %s (来源: %s)", httpsProxyURL.String(), httpsProxy.Src())
 		}
-	}
 
-	if r != nil {
+		if httpProxyURL == nil || httpsProxyURL == nil {
+			Log("GetProxy", "未能发现 HTTP/HTTPS 代理, 请确保已正确设置网络设置或环境变量")
+		}
+	} else if r != nil {
 		if r.URL.Scheme == "https" {
 			return httpsProxyURL, nil
 		} else if r.URL.Scheme == "http" {

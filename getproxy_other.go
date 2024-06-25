@@ -7,5 +7,10 @@ import (
 )
 
 func GetProxy(r *http.Request) (*url.URL, error) {
+	if r == nil {
+		Log("GetProxy", "当前平台通过环境变量设置代理, 请确保已正确设置环境变量")
+		return nil, nil
+	}
+
 	return http.ProxyFromEnvironment(r)
 }
