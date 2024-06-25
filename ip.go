@@ -10,11 +10,8 @@ var ipv6FailedCount = 0
 var ipv6APIPos = 0
 var ipv6DetectAPIs = []string { "https://api-ipv6.ip.sb/ip", "https://ipv6.ip.mir6.com" }
 
-var currentIPv4DetectAPI = ipv4DetectAPIs[ipv4APIPos]
-var currentIPv6DetectAPI = ipv6DetectAPIs[ipv6APIPos]
-
 func RefreshCurrentIPv4() bool {
-	ipv4ResponseBody := Fetch(currentIPv4DetectAPI, true)
+	ipv4ResponseBody := Fetch(ipv4DetectAPIs[ipv4APIPos], true)
 	if ipv4ResponseBody == nil {
 		Log("RefreshCurrentIPv4", "获取 IPv4 地址时发生了错误 (Error 1)")
 		return false
@@ -38,7 +35,7 @@ func RefreshCurrentIPv4() bool {
 	return true
 }
 func RefreshCurrentIPv6() bool {
-	ipv6ResponseBody := Fetch(currentIPv6DetectAPI, true)
+	ipv6ResponseBody := Fetch(ipv6DetectAPIs[ipv6APIPos], true)
 	if ipv6ResponseBody == nil {
 		Log("RefreshCurrentIPv6", "获取 IPv6 地址时发生了错误 (Error 1)")
 		return false
@@ -75,7 +72,6 @@ func RefreshCurrentIP() {
 			}
 
 			Log("RefreshCurrentIP", "获取 IPv4 地址错误次数过多, 已更换 %d 号 API", ipv4APIPos)
-			currentIPv4DetectAPI = ipv4DetectAPIs[ipv4APIPos]
 		}
 	}
 
@@ -92,7 +88,6 @@ func RefreshCurrentIP() {
 			}
 
 			Log("RefreshCurrentIP", "获取 IPv6 地址错误次数过多, 已更换 %d 号 API", ipv6APIPos)
-			currentIPv6DetectAPI = ipv6DetectAPIs[ipv6APIPos]
 		}
 	}
 }
