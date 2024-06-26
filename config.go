@@ -12,6 +12,7 @@ import (
 type Config struct {
 	Debug      bool
 	ListenAddr string
+	ListenPort int
 }
 
 var programName = "PT-TrackerProxy"
@@ -29,8 +30,8 @@ var configFilename = "config.json"
 var config = Config {
 	Debug:      false,
 	ListenAddr: "127.0.0.1",
+	ListenPort: 7887,
 }
-var listenPort = 7887
 
 var httpTransport = &http.Transport {
 	DisableKeepAlives:     false,

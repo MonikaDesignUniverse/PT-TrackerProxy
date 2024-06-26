@@ -37,7 +37,7 @@ var reserveProxy = &httputil.ReverseProxy {
 
 		r.Out.Header.Set("X-PTTP-Version", programVersion)
 		r.Out.Header.Set("X-PTTP-ListenAddr", config.ListenAddr)
-		r.Out.Header.Set("X-PTTP-ListenPort", strconv.Itoa(listenPort))
+		r.Out.Header.Set("X-PTTP-ListenPort", strconv.Itoa(config.ListenPort))
 		if currentIPv4 != "" {
 			r.Out.Header.Set("X-PTTP-IP4", currentIPv4)
 		}
@@ -140,8 +140,8 @@ func CheckListen() bool {
 		return false
 	}
 
-	if listenPort <= 1024 || listenPort >= 65535 {
-		Log("CheckListen", "监听端口不合法: %d", listenPort)
+	if config.ListenPort <= 1024 || config.ListenPort >= 65535 {
+		Log("CheckListen", "监听端口不合法: %d", config.ListenPort)
 		return false
 	}
 
@@ -159,7 +159,7 @@ func StartProxy() {
 	if config.ListenAddr == "0.0.0.0" {
 		listenType = "tcp4"
 	}
-	listenStr := (config.ListenAddr + ":" + strconv.Itoa(listenPort))
+	listenStr := (config.ListenAddr + ":" + strconv.Itoa(config.ListenPort))
 	Log("StartProxy", "监听于: %s, 支持以下 Tracker: %s", listenStr, strings.Join(domainArr, " | "))
 	reserveServer.Addr = listenStr
 	listen, err := net.Listen(listenType, listenStr)
