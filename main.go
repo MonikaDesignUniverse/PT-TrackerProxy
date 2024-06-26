@@ -155,10 +155,14 @@ func StartProxy() {
 		domainArr = append(domainArr, k)
 	}
 
+	listenType := "tcp"
+	if config.ListenAddr == "0.0.0.0" {
+		listenType = "tcp4"
+	}
 	listenStr := (config.ListenAddr + ":" + strconv.Itoa(listenPort))
 	Log("StartProxy", "监听于: %s, 支持以下 Tracker: %s", listenStr, strings.Join(domainArr, " | "))
 	reserveServer.Addr = listenStr
-	listen, err := net.Listen("tcp4", listenStr)
+	listen, err := net.Listen(listenType, listenStr)
 	if err != nil {
 		Log("StartProxy", "监听端口时发生错误: %s", err.Error())
 		return
