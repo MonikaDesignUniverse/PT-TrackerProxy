@@ -1,3 +1,5 @@
 {
-	"listenAddr": "127.0.0.1" // 不支持 IPv6 及广域网地址.
+	"debug": false, // 调试模式.
+	"listenAddr": "127.0.0.1", // 监听地址. 不支持 IPv6 及广域网地址.
+	"listenPort": 7887 // 监听端口.
 }
