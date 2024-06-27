@@ -12,6 +12,7 @@
 4. 关闭客户端设置中的 "服务器端请求伪造 (SSRF) 缓解";
 5. 将原有 PT 站点 RSS/Tracker 中的 https:// 批量替换为 http://127.0.0.1:7887/;
 
+常规版本:
 <details>
 <summary>查看 常见平台下载版本 对照表</summary>
 
@@ -30,6 +31,8 @@
 
 其它版本的 Linux/NetBSD/FreeBSD/OpenBSD/Solaris 可以此类推, 并在列表中选择适合自己的.
 </details>
+
+Docker 版本: 于 [Docker Hub](https://hub.docker.com/r/monikadesignuniverse/pt-trackerproxy) 提供.
 
 --------------------
 
