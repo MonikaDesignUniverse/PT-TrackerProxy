@@ -135,7 +135,7 @@ func CatchSignal() {
 }
 func CheckListen() bool {
 	ipPrivate, _ := CheckPrivateIP(config.ListenAddr)
-	if !ipPrivate || IsIPv6(config.ListenAddr) {
+	if !ipPrivate {
 		Log("CheckListen", "监听地址不合法: %s", config.ListenAddr)
 		return false
 	}
