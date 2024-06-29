@@ -25,6 +25,11 @@ var domain_whitelist = map[string]*url.URL {
 	"daisuki.monikadesign.uk": ParseURL("https://daisuki.monikadesign.uk"),
 	"daikirai.monikadesign.uk": ParseURL("https://daikirai.monikadesign.uk"),
 }
+var path_whitelist = []string {
+	"announce",
+	"rss", "torrentrss",
+	"download", "torrent/download", "torrents/download",
+}
 
 var configFilename = "config.json"
 var config = Config {
