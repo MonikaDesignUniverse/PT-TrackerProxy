@@ -56,7 +56,7 @@ Tracker 请求: 可将 Tracker 请求通过本工具中转, 且客户端 IP 地�
 
 支持的 PT 站点可通过 HTTP Header (```X-PTTP-*```) 来接收信息, 样例可见 server_PTTPHelper.php.  
 不支持但兼容的 PT 站点可通过 HTTP Header (```X-Forwarded-For```) 来接收信息, 须打开 XFF 兼容模式, XFF 兼容模式下仅支持上报一个 IP 地址.  
-请注意: 支持的 PT 站点不应再支持 XFF 兼容模式.
+请注意: 支持的 PT 站点不应再支持 XFF 兼容模式, 不支持但兼容的 PT 站点可通过 XFF 兼容模式来进行过渡.
 
 自 1.0 版本:  
 版本号 (```X-PTTP-Version```)  
