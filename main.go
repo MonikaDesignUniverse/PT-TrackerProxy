@@ -40,9 +40,15 @@ var reserveProxy = &httputil.ReverseProxy {
 		r.Out.Header.Set("X-PTTP-ListenPort", strconv.Itoa(config.ListenPort))
 		if currentIPv4 != "" {
 			r.Out.Header.Set("X-PTTP-IP4", currentIPv4)
+			if config.XFFCompatibilityMode == 4 {
+				r.Out.Header.Set("X-Forwarded-For", currentIPv4)
+			}
 		}
 		if currentIPv6 != "" {
 			r.Out.Header.Set("X-PTTP-IP6", currentIPv6)
+			if config.XFFCompatibilityMode == 6 {
+				r.Out.Header.Set("X-Forwarded-For", currentIPv6)
+			}
 		}
 	},
 }

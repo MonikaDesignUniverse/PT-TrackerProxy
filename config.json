@@ -1,5 +1,6 @@
 {
 	"debug": false, // 调试模式.
 	"listenAddr": "127.0.0.1", // 监听地址. 不支持 IPv6 及广域网地址.
-	"listenPort": 7887 // 监听端口.
+	"listenPort": 7887, // 监听端口.
+	"xffCompatibilityMode": 0 // XFF 兼容模式. 通常不推荐启用, 启用后可适配不支持但兼容的 PT 站点, 但仅支持上报一个 IP 地址. 0: 禁用, 4: 上报 IPv4, 6: 上报 IPv6.
 }

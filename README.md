@@ -36,7 +36,7 @@ Docker 版本: 于 [Docker Hub](https://hub.docker.com/r/monikadesignuniverse/pt
 
 --------------------
 
-支持的 PT 站点列表
+允许的 PT 站点列表
 | PT 站点 | RSS 请求 | RSS 下载 | 站点下载 | Tracker 请求 | 局域网支持 (自定义监听) |
 | ------ | ------ | ------ | ------ | ------ | ------ |
 | MDU | ✅ | ✅️ | ✅ | ✅ | ✅ | ✅ |
@@ -50,9 +50,13 @@ RSS 下载: 可将 RSS 下载通过本工具中转, 且下载 Torrent 的链接�
 Tracker 请求: 可将 Tracker 请求通过本工具中转, 且客户端 IP 地址支持由 PTTP 上报.  
 局域网支持 (自定义监听): 可由 PTTP 上报自定义监听地址和监听端口以用于自动适配, 且若支持站点下载, 则用户设置也须支持自定义监听地址及监听端口.
 
+为确保用户安全, PTTP 支持要求 PT 站点须处于上述允许列表内, 列入上述允许列表的 PT 站点同时会被列入工具白名单.
+
 --------------------
 
-支持的 PT 站点可通过 HTTP Header 来接收信息, 样例可见 server_PTTPHelper.php.
+支持的 PT 站点可通过 HTTP Header (```X-PTTP-*```) 来接收信息, 样例可见 server_PTTPHelper.php.  
+不支持但兼容的 PT 站点可通过 HTTP Header (```X-Forwarded-For```) 来接收信息, 须打开 XFF 兼容模式, XFF 兼容模式下仅支持上报一个 IP 地址.  
+请注意: 支持的 PT 站点不应再支持 XFF 兼容模式.
 
 自 1.0 版本:  
 版本号 (```X-PTTP-Version```)  

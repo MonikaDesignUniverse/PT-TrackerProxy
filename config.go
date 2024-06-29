@@ -10,9 +10,10 @@ import (
 )
 
 type Config struct {
-	Debug      bool
-	ListenAddr string
-	ListenPort int
+	Debug                bool
+	ListenAddr           string
+	ListenPort           int
+	XFFCompatibilityMode byte
 }
 
 var programName = "PT-TrackerProxy"
@@ -33,9 +34,10 @@ var path_whitelist = []string {
 
 var configFilename = "config.json"
 var config = Config {
-	Debug:      false,
-	ListenAddr: "127.0.0.1",
-	ListenPort: 7887,
+	Debug:                false,
+	ListenAddr:           "127.0.0.1",
+	ListenPort:           7887,
+	XFFCompatibilityMode: 0,
 }
 
 var httpTransport = &http.Transport {
