@@ -21,10 +21,12 @@ var programVersion = "Unknown"
 var programUserAgent = programName + "/" + programVersion
 
 var domain_whitelist = map[string]*url.URL {
+	// MDU.
 	"monikadesign.uk": ParseURL("https://monikadesign.uk"),
 	"tracker.monikadesign.uk": ParseURL("https://tracker.monikadesign.uk"),
 	"daisuki.monikadesign.uk": ParseURL("https://daisuki.monikadesign.uk"),
 	"daikirai.monikadesign.uk": ParseURL("https://daikirai.monikadesign.uk"),
+	"anime-no-index.com": ParseURL("https://anime-no-index.com"),
 }
 var path_whitelist = []string {
 	"announce",
