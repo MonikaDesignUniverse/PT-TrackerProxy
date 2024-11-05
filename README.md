@@ -36,7 +36,7 @@ Docker 版本: 于 [Docker Hub](https://hub.docker.com/r/monikadesignuniverse/pt
 
 --------------------
 
-允许的 PT 站点列表
+支持的 PT 站点列表
 | PT 站点 | RSS 请求 | RSS 下载 | 站点下载 | Tracker 请求 | 局域网支持 (自定义监听) |
 | ------ | ------ | ------ | ------ | ------ | ------ |
 | MDU | ✅ | ✅️ | ✅ | ✅ | ✅ | ✅ |
