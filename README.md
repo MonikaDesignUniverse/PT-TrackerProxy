@@ -42,6 +42,7 @@ Docker 版本: 于 [Docker Hub](https://hub.docker.com/r/monikadesignuniverse/pt
 | MDU | ✅ | ✅️ | ✅ | ✅ | ✅ | ✅ |
 
 ✅: PT 站点支持并允许该功能.  
+❔: PT 站点部分支持或部分允许该功能.  
 ❌: PT 站点不支持或不允许该功能.
 
 RSS 请求: 可将 RSS 请求通过本工具中转.  
